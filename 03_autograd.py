@@ -1,4 +1,3 @@
-
 import torch
 # The autograd package provides automatic differentiation 
 # for all operations on Tensors
@@ -11,13 +10,13 @@ y = x + 2
 # grad_fn: references a Function that has created the Tensor
 print(x) # created by the user -> grad_fn is None
 print(y)
-print(y.grad_fn)
+print(y.grad_fn) # <AddBackward0 object at 0x7f9b38091ee0>
 
 # Do more operations on y
 z = y * y * 3
 print(z)
 z = z.mean()
-print(z)
+print('mean', z) # tensor(26.9212, grad_fn=<MeanBackward0>)
 
 # Let's compute the gradients with backpropagation
 # When we finish our computation we can call .backward() and have all the gradients computed automatically.
@@ -46,14 +45,14 @@ print(y)
 print(y.shape)
 
 v = torch.tensor([0.1, 1.0, 0.0001], dtype=torch.float32)
-y.backward(v)
+y.backward(v) # not a scalar
 print(x.grad)
 
 # -------------
 # Stop a tensor from tracking history:
 # For example during our training loop when we want to update our weights
 # then this update operation should not be part of the gradient computation
-# - x.requires_grad_(False)
+# - x.requires_grad_(False) # inplace mod 
 # - x.detach()
 # - wrap in 'with torch.no_grad():'
 
@@ -92,18 +91,18 @@ for epoch in range(3):
     
     print(weights.grad)
 
-    # optimize model, i.e. adjust weights...
+    # optimize model, i.e. adjust weights... 
     with torch.no_grad():
         weights -= 0.1 * weights.grad
 
     # this is important! It affects the final weights & output
-    weights.grad.zero_()
+    weights.grad.zero_() # reset to 0
 
 print(weights)
 print(model_output)
 
 # Optimizer has zero_grad() method
-# optimizer = torch.optim.SGD([weights], lr=0.1)
+optimizer = torch.optim.SGD([weights], lr=0.1)
 # During training:
-# optimizer.step()
-# optimizer.zero_grad()
+optimizer.step()
+optimizer.zero_grad() # reset weights, like weights.grad.zero_()
