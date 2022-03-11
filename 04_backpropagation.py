@@ -7,6 +7,7 @@ y = torch.tensor(2.0)
 w = torch.tensor(1.0, requires_grad=True)
 
 steps = 1000
+lr = 0.01
 
 for _ in range(steps):
     # forward pass to compute loss
@@ -24,7 +25,7 @@ for _ in range(steps):
     # continue optimizing:
     # update weights, this operation should not be part of the computational graph
     with torch.no_grad():
-        w -= 0.01 * w.grad
+        w -= lr * w.grad
         print('w:', w)
     # don't forget to zero the gradients
     w.grad.zero_()

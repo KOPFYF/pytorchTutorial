@@ -33,9 +33,9 @@ for epoch in range(n_iters):
     l = loss(Y, y_pred)
 
     # calculate gradients = backward pass
-    l.backward()
+    l.backward() # autograd
 
-    # update weights
+    # update weights, dont track this gradient
     #w.data = w.data - learning_rate * w.grad
     with torch.no_grad():
         w -= learning_rate * w.grad
