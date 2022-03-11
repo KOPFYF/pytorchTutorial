@@ -1,0 +1,21 @@
+# VS code shortcut
+https://www.sitepoint.com/visual-studio-code-keyboard-shortcuts/
+
+Copy lines and blocks: 
+shift + option + ↓ or ↑
+
+Indent/outdent lines:
+command + [ or ]
+
+Toggle Comments:
+line comment: option + /
+block comment: shift + option + A 
+
+Code formatting:
+option + shift + F
+
+Quick fix:
+command + .
+
+Run code:
+fn + f5

@@ -8,6 +8,7 @@ import torch
 
 # torch.empty(size): uninitiallized
 x = torch.empty(1) # scalar
+x = torch.empty(1) # scalar copy
 print(x)
 x = torch.empty(3) # vector, 1D
 print(x)
