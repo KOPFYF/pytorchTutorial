@@ -10,7 +10,7 @@ X_numpy, y_numpy = datasets.make_regression(n_samples=100, n_features=1, noise=2
 # cast to float Tensor
 X = torch.from_numpy(X_numpy.astype(np.float32))
 y = torch.from_numpy(y_numpy.astype(np.float32))
-y = y.view(y.shape[0], 1)
+y = y.view(y.shape[0], 1) # make it a column vector
 
 n_samples, n_features = X.shape
 
@@ -33,8 +33,10 @@ for epoch in range(num_epochs):
     y_predicted = model(X)
     loss = criterion(y_predicted, y)
     
-    # Backward pass and update
+    # Backward pass
     loss.backward()
+
+    # update paras
     optimizer.step()
 
     # zero grad before new step
@@ -45,6 +47,7 @@ for epoch in range(num_epochs):
 
 # Plot
 predicted = model(X).detach().numpy()
+# predicted = model(X).numpy() # Backend MacOSX is interactive backend. Turning interactive mode on
 
 plt.plot(X_numpy, y_numpy, 'ro')
 plt.plot(X_numpy, predicted, 'b')

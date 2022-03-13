@@ -23,7 +23,7 @@ X_test = torch.from_numpy(X_test.astype(np.float32))
 y_train = torch.from_numpy(y_train.astype(np.float32))
 y_test = torch.from_numpy(y_test.astype(np.float32))
 
-y_train = y_train.view(y_train.shape[0], 1)
+y_train = y_train.view(y_train.shape[0], 1) # convert into a col vec
 y_test = y_test.view(y_test.shape[0], 1)
 
 # 1) Model
@@ -31,10 +31,10 @@ y_test = y_test.view(y_test.shape[0], 1)
 class Model(nn.Module):
     def __init__(self, n_input_features):
         super(Model, self).__init__()
-        self.linear = nn.Linear(n_input_features, 1)
+        self.linear = nn.Linear(n_input_features, 1) # linear layer
 
     def forward(self, x):
-        y_pred = torch.sigmoid(self.linear(x))
+        y_pred = torch.sigmoid(self.linear(x)) # y = sigmoid(WX+b)
         return y_pred
 
 model = Model(n_features)
@@ -42,7 +42,7 @@ model = Model(n_features)
 # 2) Loss and optimizer
 num_epochs = 100
 learning_rate = 0.01
-criterion = nn.BCELoss()
+criterion = nn.BCELoss() # binary cross entropy loss
 optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
 # 3) Training loop

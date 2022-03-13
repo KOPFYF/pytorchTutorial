@@ -10,11 +10,10 @@ import torch.nn as nn
 
 # Linear regression
 # f = w * x 
-
 # here : f = 2 * x
 
 # 0) Training samples
-X = torch.tensor([1, 2, 3, 4], dtype=torch.float32)
+X = torch.tensor([1, 2, 3, 4], dtype=torch.float32) # 1 by 4
 Y = torch.tensor([2, 4, 6, 8], dtype=torch.float32)
 
 # 1) Design Model: Weights to optimize and forward function
@@ -36,12 +35,13 @@ optimizer = torch.optim.SGD([w], lr=learning_rate)
 
 # 3) Training loop
 for epoch in range(n_iters):
-    # predict = forward pass
+    # 1 - forward: predict = forward pass
     y_predicted = forward(X)
 
-    # loss
+    # 2 - loss
     l = loss(Y, y_predicted)
 
+    # 3 - backward and update grad
     # calculate gradients = backward pass
     l.backward()
 
