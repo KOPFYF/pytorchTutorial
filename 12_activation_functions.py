@@ -6,35 +6,35 @@ import torch.nn.functional as F
 
 x = torch.tensor([-1.0, 1.0, 2.0, 3.0])
 
-# sofmax
+# sofmax, (0, 1)
 output = torch.softmax(x, dim=0)
 print(output)
-sm = nn.Softmax(dim=0)
+sm = nn.Softmax(dim=0) # op on the first dim
 output = sm(x)
 print(output)
 
-# sigmoid 
+# sigmoid, (0, 1)
 output = torch.sigmoid(x)
 print(output)
 s = nn.Sigmoid()
 output = s(x)
 print(output)
 
-#tanh
+#tanh, (-1, 1)
 output = torch.tanh(x)
 print(output)
 t = nn.Tanh()
 output = t(x)
 print(output)
 
-# relu
+# relu, (0, inf)
 output = torch.relu(x)
 print(output)
 relu = nn.ReLU()
 output = relu(x)
 print(output)
 
-# leaky relu
+# leaky relu, (-inf, inf), solving gradient vanishing
 output = F.leaky_relu(x)
 print(output)
 lrelu = nn.LeakyReLU()

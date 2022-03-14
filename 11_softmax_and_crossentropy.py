@@ -45,8 +45,8 @@ Y_pred_good = np.array([0.7, 0.2, 0.1])
 Y_pred_bad = np.array([0.1, 0.3, 0.6])
 l1 = cross_entropy(Y, Y_pred_good)
 l2 = cross_entropy(Y, Y_pred_bad)
-print(f'Loss1 numpy: {l1:.4f}')
-print(f'Loss2 numpy: {l2:.4f}')
+print(f'Loss1 numpy: {l1:.4f}') # low loss
+print(f'Loss2 numpy: {l2:.4f}') # high loss
 
 # CrossEntropyLoss in PyTorch (applies Softmax)
 # nn.LogSoftmax + nn.NLLLoss
@@ -100,7 +100,7 @@ print(f'Batch Loss2: {l2.item():.4f}')
 # get predictions
 _, predictions1 = torch.max(Y_pred_good, 1)
 _, predictions2 = torch.max(Y_pred_bad, 1)
-print(f'Actual class: {Y}, Y_pred1: {predictions1}, Y_pred2: {predictions2}')
+print(f'Actual class: {Y}, Y_pred1: {predictions1}, Y_pred2: {predictions2}') # Actual class: 0, Y_pred1: 0, Y_pred2: 1
 
 # Binary classification
 class NeuralNet1(nn.Module):
@@ -116,7 +116,7 @@ class NeuralNet1(nn.Module):
         out = self.linear2(out)
         # sigmoid at the end
         y_pred = torch.sigmoid(out)
-        return y_pred
+        return y_pred # input_size * 1
 
 model = NeuralNet1(input_size=28*28, hidden_size=5)
 criterion = nn.BCELoss()
@@ -133,10 +133,26 @@ class NeuralNet2(nn.Module):
         out = self.linear1(x)
         out = self.relu(out)
         out = self.linear2(out)
-        # no softmax at the end
-        return out
+        # no softmax at the end!
+        return out # input_size * num_classes
 
 model = NeuralNet2(input_size=28*28, hidden_size=5, num_classes=3)
 criterion = nn.CrossEntropyLoss()  # (applies Softmax)
+
+'''
+https://medium.com/dejunhuang/learning-day-57-practical-5-loss-function-crossentropyloss-vs-bceloss-in-pytorch-softmax-vs-bd866c8a0d23
+
+
+For BCE, use BCEWithLogitsLoss()
+For CE, use CrossEntropyLoss()
+
+Use BCEWithLogitsLoss() instead of BCELoss() since the former already includes a sigmoid layer. So you can directly pass the logits in the loss function. 
+
+Technical reason:
+This version is more numerically stable than using a plain Sigmoid followed by a BCELoss as, by combining the operations into one layer, we take advantage of the log-sum-exp trick for numerical stability. (ref)
+CrossEntropyLoss() has already included a softmax layer inside.
+
+
+'''
 
 
