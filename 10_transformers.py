@@ -50,7 +50,7 @@ class WineDataset(Dataset):
         self.x_data = xy[:, 1:]
         self.y_data = xy[:, [0]]
 
-        self.transform = transform
+        self.transform = transform # pass in the customized transform
 
     def __getitem__(self, index):
         sample = self.x_data[index], self.y_data[index]
@@ -82,21 +82,21 @@ class MulTransform:
         return inputs, targets
 
 print('Without Transform')
-dataset = WineDataset()
+dataset = WineDataset() # default as no transform
 first_data = dataset[0]
 features, labels = first_data
-print(type(features), type(labels))
+print(type(features), type(labels)) # <class 'numpy.ndarray'>
 print(features, labels)
 
 print('\nWith Tensor Transform')
-dataset = WineDataset(transform=ToTensor())
+dataset = WineDataset(transform=ToTensor()) # single transform
 first_data = dataset[0]
 features, labels = first_data
-print(type(features), type(labels))
+print(type(features), type(labels)) # <class 'torch.Tensor'> 
 print(features, labels)
 
 print('\nWith Tensor and Multiplication Transform')
-composed = torchvision.transforms.Compose([ToTensor(), MulTransform(4)])
+composed = torchvision.transforms.Compose([ToTensor(), MulTransform(4)]) # multi transforms
 dataset = WineDataset(transform=composed)
 first_data = dataset[0]
 features, labels = first_data
